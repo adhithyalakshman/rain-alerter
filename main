@@ -1,0 +1,30 @@
+import requests
+#getting data from weather
+apikey="a809aab96f7f02e9bf5331dc03a30f50"
+# setting my posoition eg-chennai
+lat=10.960078
+lon=78.076607
+url="https://api.openweathermap.org/data/2.5/forecast?lat=13.082680&lon=80.270721&appid=a809aab96f7f02e9bf5331dc03a30f50&cnt=4"
+response=requests.get(url=url)
+d=response.json()
+bu: bool
+bu=False
+# making pre warning
+for i in range(0,len(d["list"])):
+    print(d["list"][i]["weather"][0]["id"])
+    if (d["list"][i]["weather"][0]["id"]) <700:
+        bu=True
+#sending alert through watsapp using twilio api
+if bu:
+    from twilio.rest import Client
+    account_sid = 'will find while creating acc'
+    auth_token = 'your token'
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        from_='whatsapp:+14155238886',
+        
+        to='whatsapp:+your registerd num',
+        body="it will rain bring umberla"
+    )
+
